@@ -1,13 +1,26 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
+import axios from 'axios';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const dummy = () => {
-    console.log("clicked.");
+  const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    let url = "http://192.168.87.50:3001/login/" + email.toLowerCase() + "/" + password;
+    console.log(url)
+    try {
+        axios.post(url).then(res => {
+            if (res.data) {
+                navigation.replace("Home")
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
   }
 
   return (
@@ -33,7 +46,7 @@ const LoginScreen = () => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={dummy}
+          onPress={handleLogin}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Login</Text>
