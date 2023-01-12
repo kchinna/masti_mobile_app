@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
+// NEED: generate qr code for json data
+// NEED: logout option
 const ProfileScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
     const [userData, setUserData] = useState({});
