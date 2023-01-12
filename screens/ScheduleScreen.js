@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const ScheduleScreen = () => {
+const ScheduleScreen = ({ route }) => {
   return (
     <View>
       <Text>ScheduleScreen</Text>

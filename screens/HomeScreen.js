@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
+    console.log(route.params.email);
   return (
     <View>
       <Text>HomeScreen</Text>

@@ -15,7 +15,7 @@ const LoginScreen = () => {
     try {
         axios.post(url).then(res => {
             if (res.data) {
-                navigation.replace("Home")
+                navigation.navigate("Navigation", { email: email.toLowerCase() })
             }
         })
     } catch (error) {
