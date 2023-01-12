@@ -17,7 +17,6 @@ const ProfileScreen = ({ route }) => {
             console.log(error);
         }
     }, [])
-    console.log(userData)
     return (
         <View>
             <Text>{userData.name}</Text>
