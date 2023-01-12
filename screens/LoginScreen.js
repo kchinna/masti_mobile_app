@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
 import axios from 'axios';
 
+// MARKED ISSUE: stay logged in for long periods of time
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
