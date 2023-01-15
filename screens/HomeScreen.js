@@ -21,9 +21,9 @@ const HomeScreen = ({ route }) => {
     }, [])
     return (
         <View>
-            {announcements.map(data => {
+            {announcements.map((data, index) => {
                 return (
-                    <View key={data.uuid}>
+                    <View key={index}>
                         <Text>{data.message}</Text>
                         <Text>{data.timestamp}</Text>
                         <Text>--------------</Text>

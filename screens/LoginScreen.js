@@ -13,7 +13,6 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         let url = "http://192.168.87.50:3001/login/" + email.toLowerCase() + "/" + password;
-        console.log(url)
         try {
             axios.post(url).then(res => {
                 if (res.data) {
@@ -28,7 +27,6 @@ const LoginScreen = () => {
             console.log(error);
         }
     }
-
     return (
         <KeyboardAvoidingView
             style={styles.container}

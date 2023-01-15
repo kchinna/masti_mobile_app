@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,8 +18,7 @@ const profileName = "Profile"
 const Tab = createBottomTabNavigator();
 
 function NavContainer({ route }) {
-  const email = route.params.email;
-  console.log(email);
+  const [email, setEmail] = useState(route.params.email);
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator
