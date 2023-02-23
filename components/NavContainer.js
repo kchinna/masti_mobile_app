@@ -8,12 +8,14 @@ import HomeScreen from '../screens/HomeScreen';
 import MapScreen from '../screens/MapScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import AnnouncementScreen from '../screens/AnnouncementScreen';
 
 //Screen names
 const homeName = "Home";
 const mapName = "Map";
 const scheduleName = "Schedule";
-const profileName = "Profile"
+const profileName = "Profile";
+const announcementName = "Announcement";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +42,9 @@ function NavContainer({ route }) {
                     }
                     else if (rn === profileName) {
                         iconName = focused ? 'person' : 'person-outline';
+                    }
+                    else if (rn === announcementName) {
+                      iconName = focused ? 'alarm' : 'alarm-outline';
                     }
 
                     // You can return any component that you like here!
@@ -72,6 +77,7 @@ function NavContainer({ route }) {
         <Tab.Screen name={homeName} component={HomeScreen} initialParams={{ email: email}} />
         <Tab.Screen name={mapName} component={MapScreen} />
         <Tab.Screen name={scheduleName} component={ScheduleScreen} initialParams={{ email: email}} />
+        <Tab.Screen name={announcementName} component={AnnouncementScreen} initialParams={{ email: email}} />
         <Tab.Screen name={profileName} component={ProfileScreen} initialParams={{ email: email}} />
       </Tab.Navigator>
     </NavigationContainer>
