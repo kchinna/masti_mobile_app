@@ -1,25 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
+import axios from 'axios'
 
 const AnnouncementScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
-    const [events, setEvents] = useState([{}]);
+    const [announcements, setAnnouncements] = useState([{}]);
     useEffect(() => {
-        let url = "http://192.168.87.50:3001/participant/" + email;
+        let url = "https://masti-dynamodb-apis-pearl.vercel.app/announcement/";
         try {
             axios.get(url).then(res => {
                 if (res.data) {
-                    url = "http://192.168.87.50:3001/schedule/" + res.data.item.team;
-                    try {
-                        axios.get(url).then(res => {
-                            if (res.data) {
-                                setEvents(res.data.teamData);
-                            }
-                        })
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    setAnnouncements(res.data.sortedData);
                 }
             })
         } catch (error) {
@@ -28,10 +19,10 @@ const AnnouncementScreen = ({ route }) => {
     }, [])
     return (
         <View>
-            {events.map((data, index) => {
+            {announcements.map((data, index) => {
                 return (
                     <View key={index}>
-                        <Text>{data.event}</Text>
+                        <Text>{data.message}</Text>
                         <Text>{data.timestamp}</Text>
                         <Text>--------------</Text>
                     </View>
