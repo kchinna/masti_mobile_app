@@ -12,21 +12,21 @@ const LoginScreen = () => {
     const navigation = useNavigation();
 
     const handleLogin = async () => {
-        navigation.navigate("Navigation", { email: email.toLowerCase() })
-        // let url = "http://192.168.87.50:3001/login/" + email.toLowerCase() + "/" + password;
-        // try {
-        //     axios.post(url).then(res => {
-        //         if (res.data) {
-        //             setAuthed("")
-        //             navigation.navigate("Navigation", { email: email.toLowerCase() })
-        //         }
-        //         else {
-        //             setAuthed("Incorrect Username or Password");
-        //         }
-        //     })
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        // navigation.navigate("Navigation", { email: email.toLowerCase() })
+        let url = "https://masti-dynamodb-apis-pearl.vercel.app/login/" + email.toLowerCase() + "/" + password;
+        try {
+            axios.post(url).then(res => {
+                if (res.data) {
+                    setAuthed("")
+                    navigation.navigate("Navigation", { email: email.toLowerCase() })
+                }
+                else {
+                    setAuthed("Incorrect Username or Password");
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <KeyboardAvoidingView
