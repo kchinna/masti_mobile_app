@@ -8,7 +8,7 @@ const ProfileScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
     const [userData, setUserData] = useState({});
     useEffect(() => {
-        let url = "http://192.168.87.50:3001/participant/" + email;
+        let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
         try {
             axios.get(url).then(res => {
                 if (res.data) {
