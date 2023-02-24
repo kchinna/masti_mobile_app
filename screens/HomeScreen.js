@@ -1,6 +1,6 @@
 const width = Dimensions.get('window').width / 2 - 30;
 import { View, SafeAreaView, Text, StyleSheet, FlatList, Image, Dimensions, } from 'react-native'
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import React, { useState, useEffect } from 'react'
 import COLORS from '../styling/color.js';
@@ -89,7 +89,7 @@ const HomeScreen = ({ route }) => {
       );
     };
     return (
-      <SafeAreaView
+      <ScrollView
         style={{flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white}}>
         <View style={style.header}>
           <View>
@@ -112,7 +112,7 @@ const HomeScreen = ({ route }) => {
             return <Card team={item} />;
           }}
         />
-      </SafeAreaView>
+      </ScrollView>
     );
   };
   
