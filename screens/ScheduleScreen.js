@@ -35,6 +35,12 @@ const ScheduleScreen = ({ route }) => {
     // The inner arrays will be of length 2
     // The 0th index is the event name and the 1st index is the time (as a string)
     // Also if needed, the team name of the user is in the variable team
+    // 
+    // Currently all the data comes from 1 sheet, but we want to...
+    // Have a sheet for each team
+    // OR
+    // Place all data in 1 sheet, but have a team column and parse only the
+    // rows with the team name in it
     useEffect(() => {
         let url = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
         try {
