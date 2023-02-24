@@ -5,34 +5,70 @@ import axios from 'axios';
 const ScheduleScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
     const [events, setEvents] = useState([{}]);
+    // const [userData, setUserData] = useState({});
+    const [team, setTeam] = useState("");
+
+    // useEffect(() => {
+    //     let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
+    //     try {
+    //         axios.get(url).then(res => {
+    //             if (res.data) {
+    //                 url = "https://masti-dynamodb-apis-pearl.vercel.app/schedule/" + res.data.item.team;
+    //                 try {
+    //                     axios.get(url).then(res => {
+    //                         if (res.data) {
+    //                             setEvents(res.data.teamData);
+    //                             populate_user_data();
+    //                         }
+    //                     })
+    //                 } catch (error) {
+    //                     console.log(error);
+    //                 }
+    //             }
+    //         })
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }, [])
+
+    // After this block the events variable will be a 2D Array
+    // The inner arrays will be of length 2
+    // The 0th index is the event name and the 1st index is the time (as a string)
+    // Also if needed, the team name of the user is in the variable team
     useEffect(() => {
-        let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
+        let url = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
         try {
             axios.get(url).then(res => {
                 if (res.data) {
-                    url = "https://masti-dynamodb-apis-pearl.vercel.app/schedule/" + res.data.item.team;
-                    try {
-                        axios.get(url).then(res => {
-                            if (res.data) {
-                                setEvents(res.data.teamData);
-                            }
-                        })
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    setEvents(res.data.values.slice(1));
+                    populate_user_data();
                 }
             })
         } catch (error) {
             console.log(error);
         }
     }, [])
+
+    function populate_user_data() {
+        let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
+        try {
+            axios.get(url).then(res => {
+                if (res.data) {
+                    setTeam(res.data.item.team);
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <View>
             {events.map((data, index) => {
                 return (
                     <View key={index}>
-                        <Text>{data.event}</Text>
-                        <Text>{data.timestamp}</Text>
+                        <Text>{data[0]}</Text>
+                        <Text>{data[1]}</Text>
                         <Text>--------------</Text>
                     </View>
                 );
