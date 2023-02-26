@@ -1,8 +1,12 @@
-import { StyleSheet, Text, ScrollView, View } from 'react-native'
+import { StyleSheet, Text, ScrollView, View, StatusBar } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { Card } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import colors from '../styling/color.js'
 
-const ScheduleScreen = ({ route }) => {
+const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     const [email, setEmail] = useState(route.params.email);
     const [events, setEvents] = useState([{}]);
     // const [userData, setUserData] = useState({});
@@ -55,6 +59,7 @@ const ScheduleScreen = ({ route }) => {
         }
     }, [])
 
+
     function populate_user_data() {
         let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
         try {
@@ -69,20 +74,42 @@ const ScheduleScreen = ({ route }) => {
     }
 
     return (
+
         <ScrollView>
-            {events.map((data, index) => {
-                return (
-                    <View key={index}>
-                        <Text>{data[0]}</Text>
-                        <Text>{data[1]}</Text>
-                        <Text>{data[2]}</Text>
-                        <Text>{data[3]}</Text>
-                        <Text>--------------</Text>
-                    </View>
-                );
-            })}
+            {events.map((files, index) => (
+            <Card key={index} style={styles.container}>
+                <Card.Title
+                title={!files[1] ? "Not Provided" : files[1]}
+                left={() => <Ionicons name="md-person" size={50} color="#fff" />}
+                />
+                <Card.Content style={styles.content}>
+                <Text style={styles.title}>Team Name:</Text>
+                <Text style={styles.paragraph}>
+                    {!files[0] ? "Not Given" : files[0]}
+                </Text>
+                </Card.Content>
+                <Card.Content style={styles.content}>
+                <Text style={styles.title}>Message:</Text>
+                <Text style={styles.paragraph}>
+                    {!files[2] ? "Not Provided" : files[2]}
+                </Text>
+                </Card.Content>
+                <Card.Content style={styles.content}>
+                <Text style={styles.title}>Time:</Text>
+                <Text style={styles.paragraph}>
+                    {!files[4] ? "Not Provided" : files[3]}
+                </Text>
+                </Card.Content>
+                <Card.Content style={styles.content}>
+                <Text style={styles.title}>Venue:</Text>
+                <Text style={styles.paragraph}>
+                    {!files[3] ? "Not Provided" : files[4]}
+                </Text>
+                </Card.Content>
+            </Card>
+            ))}
         </ScrollView>
-    )
+    );
 }
 
 export default ScheduleScreen
