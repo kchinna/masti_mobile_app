@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, ScrollView, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
@@ -69,17 +69,19 @@ const ScheduleScreen = ({ route }) => {
     }
 
     return (
-        <View>
+        <ScrollView>
             {events.map((data, index) => {
                 return (
                     <View key={index}>
                         <Text>{data[0]}</Text>
                         <Text>{data[1]}</Text>
+                        <Text>{data[2]}</Text>
+                        <Text>{data[3]}</Text>
                         <Text>--------------</Text>
                     </View>
                 );
             })}
-        </View>
+        </ScrollView>
     )
 }
 
