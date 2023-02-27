@@ -5,6 +5,7 @@ import { Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import colors from '../styling/color.js'
+import AnnouncementScreen from './AnnouncementScreen.js';
 
 const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     const [email, setEmail] = useState(route.params.email);
@@ -52,12 +53,14 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
                 if (res.data) {
                     setEvents(res.data.values.slice(1));
                     populate_user_data();
+                    get_only_team_data();
                 }
             })
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, []) 
+    // [] is dependency array, if changed will cal useEffect againg???
 
 
     function populate_user_data() {
@@ -71,6 +74,16 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function get_only_team_data() {
+        ret = [];
+        for (let i = 0; i < events.length; i++) {
+            if (events[i][3] === team) {
+                ret.push(events[i]);
+            }
+        }
+        setEvents(ret);
     }
 
     return (
