@@ -1,17 +1,19 @@
-import { StyleSheet, Text, ScrollView, View, StatusBar } from 'react-native'
-import React, { useState, useEffect } from 'react'
+
 import axios from 'axios';
-import { Card } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
-import colors from '../styling/color.js'
-import AnnouncementScreen from './AnnouncementScreen.js';
+import React, {Component} from 'react';
+import {ScrollView, View, Text, Image} from 'react-native';
+import {Calendar} from 'react-native-general-calendars';
+
+import style from '../styling/calstyle.js';
+import EventComponent from '../styling/eventstyle.js';
+
 
 const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     const [email, setEmail] = useState(route.params.email);
     const [events, setEvents] = useState([{}]);
     // const [userData, setUserData] = useState({});
     const [team, setTeam] = useState("");
+
 
     // useEffect(() => {
     //     let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
@@ -53,14 +55,12 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
                 if (res.data) {
                     setEvents(res.data.values.slice(1));
                     populate_user_data();
-                    get_only_team_data();
                 }
             })
         } catch (error) {
             console.log(error);
         }
-    }, []) 
-    // [] is dependency array, if changed will cal useEffect againg???
+    }, [])
 
 
     function populate_user_data() {
@@ -76,55 +76,54 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
         }
     }
 
-    function get_only_team_data() {
-        ret = [];
-        for (let i = 0; i < events.length; i++) {
-            if (events[i].length === 4 && events[i][3] === team) {
-                ret.push(events[i]);
-            }
-        }
-        setEvents(ret);
-    }
-
     return (
 
-        <ScrollView>
-            {events.map((files, index) => (
-            <Card key={index} style={styles.container}>
-                <Card.Title
-                title={!files[1] ? "Not Provided" : files[1]}
-                left={() => <Ionicons name="md-person" size={50} color="#fff" />}
-                />
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Team Name:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[0] ? "Not Given" : files[0]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Message:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[2] ? "Not Provided" : files[2]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Time:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[4] ? "Not Provided" : files[3]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Venue:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[3] ? "Not Provided" : files[4]}
-                </Text>
-                </Card.Content>
-            </Card>
-            ))}
-        </ScrollView>
-    );
+        <ScrollView style={[style.greyBg, style.commonPadding]}>
+        {events.map((files, index) => (
+            <><View style={style.calendarScreen}>
+                <View>
+                    <Text style={style.calendarTitle}>Kalender</Text>
+                    <Calendar
+                        // Calendar type (gregorian, jalaali). Default = gregorian
+                        type={'gregorian'}
+                        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                        monthFormat={'MMM YYYY'}
+                        // Hide day names. Default = false
+                        hideDayNames={true}
+                        // Replace default arrows with custom ones (direction can be 'left' or 'right')
+                        renderArrow={(direction) => {
+                            // this piece of code might be shrunked down to something like this:
+                            // return <Image source={require(`../img/${direction}.png`)} />;
+                            // but 'require' function refuses to accept such param as an input :-(
+                            if (direction === 'left') {
+                                return <Image source={require('../elements/image-removebg-preview.png')} />;
+                            }
+
+                            return <Image source={require('../elements/image-removebg-preview-2.png')} />;
+                        } }
+                        // hardcoded, in real app might be fetched from some remote API
+                        markedDates={{
+                            '2018-03-22': { selected: true, selectedColor: '#8AC44C' },
+                            '2018-03-24': { marked: true, dotColor: '#8AC44C' },
+                            '2018-03-26': { marked: true, dotColor: '#8AC44C' },
+                            '2018-03-29': { marked: true, dotColor: '#8AC44C' }
+                        }} />
+                </View>
+            </View><View style={style.eventList}>
+                    <Text style={style.eventListTitle}>MINE AFTALER</Text>
+                    <EventComponent {...eventData} />
+                </View></>
+            
+        ))} 
+    </ScrollView>
+);
+
+
 }
 
 export default ScheduleScreen
 
 const styles = StyleSheet.create({})
+
+
+
