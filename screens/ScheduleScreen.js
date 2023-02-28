@@ -78,6 +78,12 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
 
     function get_only_team_data() {
         ret = [];
+        // let i = 0;
+        // while (i < events.length && events[i][0].toLowerCase() != team.toLowerCase()) {
+        //     i++;
+        // }
+        // i++;
+        // while ()
         for (let i = 0; i < events.length; i++) {
             if (events[i].length === 4 && events[i][3] === team) {
                 ret.push(events[i]);
