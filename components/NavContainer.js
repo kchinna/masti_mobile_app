@@ -78,7 +78,7 @@ function NavContainer({ route }) {
         <Tab.Screen name={mapName} component={MapScreen} />
         <Tab.Screen name={scheduleName} component={ScheduleScreen} initialParams={{ email: email}} />
         <Tab.Screen name={announcementName} component={AnnouncementScreen} initialParams={{ email: email}} />
-        <Tab.Screen name={profileName} component={ProfileScreen} initialParams={{ email: email}} />
+        {/* <Tab.Screen name={profileName} component={ProfileScreen} initialParams={{ email: email}} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
