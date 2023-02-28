@@ -14,87 +14,38 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     // const [userData, setUserData] = useState({});
     const [team, setTeam] = useState("");
 
-    // useEffect(() => {
-    //     let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
-    //     try {
-    //         axios.get(url).then(res => {
-    //             if (res.data) {
-    //                 url = "https://masti-dynamodb-apis-pearl.vercel.app/schedule/" + res.data.item.team;
-    //                 try {
-    //                     axios.get(url).then(res => {
-    //                         if (res.data) {
-    //                             setEvents(res.data.teamData);
-    //                             populate_user_data();
-    //                         }
-    //                     })
-    //                 } catch (error) {
-    //                     console.log(error);
-    //                 }
-    //             }
-    //         })
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }, [])
-
-    // After this block the events variable will be a 2D Array
-    // The inner arrays will be of length 2
-    // The 0th index is the event name and the 1st index is the time (as a string)
-    // Also if needed, the team name of the user is in the variable team
-    // 
-    // Currently all the data comes from 1 sheet, but we want to...
-    // Have a sheet for each team
-    // OR
-    // Place all data in 1 sheet, but have a team column and parse only the
-    // rows with the team name in it
     useEffect(() => {
-        let url = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";        try {
-            axios.get(url).then(res => {
-                if (res.data) {
-                    setEvents(res.data.values.slice(1))
-                    // events = res.data.values.slice(1);
-                    // populate_user_data()
-                    // get_only_team_data()
-                }
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }, []) 
-    // [] is dependency array, if changed will cal useEffect againg???
-
-    function populate_user_data() {
         let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
         try {
             axios.get(url).then(res => {
                 if (res.data) {
-                    console.log(events)
-                    setTeam(res.data.item.team);
+                    let team = res.data.item.team;
+                    let url2 = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
+                    try {
+                        axios.get(url2).then(res => {
+                            if (res.data) {
+                                let data = get_only_team_data(res.data.values.splice(1), team);
+                                setEvents(data);
+                            }
+                        })
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
             })
         } catch (error) {
             console.log(error);
         }
+    }, [])
 
-        console.log(events);
-        for (let i = 0; i < events.length; i++) {
-            console.log(events[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, ""))
-            if (events[i].length === 4 && events[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, "")) {
-                ret.push(events[i]);
+    function get_only_team_data(data, team) {
+        let ret = [];
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].length === 4 && data[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, "")) {
+                ret.push(data[i]);
             }
         }
-        // setEvents(ret);
-        events = ret;
-    }
-
-    function get_only_team_data() {
-        ret = [];
-        // let i = 0;
-        // while (i < events.length && events[i][0].toLowerCase() != team.toLowerCase()) {
-        //     i++;
-        // }
-        // i++;
-        // while ()
+        return ret;
     }
 
     return (
