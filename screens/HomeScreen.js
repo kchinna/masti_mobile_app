@@ -1,4 +1,5 @@
 const width = Dimensions.get('window').width / 2 - 30;
+import { useNavigation } from '@react-navigation/core'
 import { View, SafeAreaView, Text, StyleSheet, FlatList, Image, Dimensions, } from 'react-native'
 import {ScrollView, TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,6 +12,8 @@ import axios from 'axios'
 const HomeScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
     const [announcements, setAnnouncements] = useState([{}]);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         let url = "http://192.168.87.50:3001/announcement/";
@@ -55,7 +58,8 @@ const HomeScreen = ({ route }) => {
       return (
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigation.navigate('ScheduleScreen', team)}>
+          /*onPress={() => navigation.navigate('ScheduleScreen')}*/
+        >
           <View style={style.card}>
             <View style={{alignItems: 'flex-end'}}>
             </View>
