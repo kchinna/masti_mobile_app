@@ -9,7 +9,8 @@ import AnnouncementScreen from './AnnouncementScreen.js';
 
 const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     const [email, setEmail] = useState(route.params.email);
-    const [events, setEvents] = useState([{}]);
+    const [events, setEvents] = useState([]);
+    // let events = [];
     // const [userData, setUserData] = useState({});
     const [team, setTeam] = useState("");
 
@@ -47,13 +48,13 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     // Place all data in 1 sheet, but have a team column and parse only the
     // rows with the team name in it
     useEffect(() => {
-        let url = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
-        try {
+        let url = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";        try {
             axios.get(url).then(res => {
                 if (res.data) {
-                    setEvents(res.data.values.slice(1));
-                    populate_user_data();
-                    get_only_team_data();
+                    setEvents(res.data.values.slice(1))
+                    // events = res.data.values.slice(1);
+                    // populate_user_data()
+                    // get_only_team_data()
                 }
             })
         } catch (error) {
@@ -62,18 +63,28 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     }, []) 
     // [] is dependency array, if changed will cal useEffect againg???
 
-
     function populate_user_data() {
         let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
         try {
             axios.get(url).then(res => {
                 if (res.data) {
+                    console.log(events)
                     setTeam(res.data.item.team);
                 }
             })
         } catch (error) {
             console.log(error);
         }
+
+        console.log(events);
+        for (let i = 0; i < events.length; i++) {
+            console.log(events[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, ""))
+            if (events[i].length === 4 && events[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, "")) {
+                ret.push(events[i]);
+            }
+        }
+        // setEvents(ret);
+        events = ret;
     }
 
     function get_only_team_data() {
@@ -84,17 +95,9 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
         // }
         // i++;
         // while ()
-        for (let i = 0; i < events.length; i++) {
-            // console.log(events[i][3].toLowerCase().trim() === team.toLowerCase().trim())
-            if (events[i].length === 4 && events[i][3].toLowerCase().trim() === team.toLowerCase().trim()) {
-                ret.push(events[i]);
-            }
-        }
-        setEvents(ret);
     }
 
     return (
-
         <ScrollView>
             {events.map((files, index) => (
             <Card key={index} style={styles.container}>
