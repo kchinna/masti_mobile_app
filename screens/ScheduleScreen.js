@@ -85,7 +85,8 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
         // i++;
         // while ()
         for (let i = 0; i < events.length; i++) {
-            if (events[i].length === 4 && events[i][3] === team) {
+            // console.log(events[i][3].toLowerCase().trim() === team.toLowerCase().trim())
+            if (events[i].length === 4 && events[i][3].toLowerCase().trim() === team.toLowerCase().trim()) {
                 ret.push(events[i]);
             }
         }
