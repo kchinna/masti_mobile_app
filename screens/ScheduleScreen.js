@@ -20,6 +20,7 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
             axios.get(url).then(res => {
                 if (res.data) {
                     let team = res.data.item.team;
+                    // console.log(res.data)
                     let url2 = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
                     try {
                         axios.get(url2).then(res => {
