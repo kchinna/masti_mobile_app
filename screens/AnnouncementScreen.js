@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
 import { Card } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import axios from 'axios'
@@ -8,18 +8,8 @@ import axios from 'axios'
 const AnnouncementScreen = ({ route }) => {
     const [email, setEmail] = useState(route.params.email);
     const [announcements, setAnnouncements] = useState([{}]);
-    // useEffect(() => {
-    //     let url = "https://masti-dynamodb-apis-pearl.vercel.app/announcement/";
-    //     try {
-    //         axios.get(url).then(res => {
-    //             if (res.data) {
-    //                 setAnnouncements(res.data.sortedData);
-    //             }
-    //         })
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }, [])
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [ref, setRef] = React.useState(0);
 
     // After this block the announcements variable will be a 2D Array
     // The inner arrays will be of length 2
@@ -29,18 +19,26 @@ const AnnouncementScreen = ({ route }) => {
         try {
             axios.get(url).then(res => {
                 if (res.data) {
-                    setAnnouncements(res.data.values.slice(1));
+                    setAnnouncements(res.data.values.slice(1).reverse());
                 }
             })
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, [ref])
 
-    // Replace the inner <View> with styling for a block
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setRef(ref + 1);
+        setRefreshing(false);
+      }, [ref]);
     
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+        >
             {announcements.map((files, index) => (
             <Card key={index} style={styles.container}>
                 <Card.Title
