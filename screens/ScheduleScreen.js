@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, View, StatusBar } from 'react-native'
+import { StyleSheet, Text, ScrollView, View, StatusBar, RefreshControl } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Card } from "react-native-paper";
@@ -13,6 +13,8 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     // let events = [];
     // const [userData, setUserData] = useState({});
     const [team, setTeam] = useState("");
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [ref, setRef] = React.useState(0);
 
     useEffect(() => {
         let url = "https://masti-dynamodb-apis-pearl.vercel.app/participant/" + email;
@@ -37,7 +39,13 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, [ref]);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setRef(ref + 1);
+        setRefreshing(false);
+      }, [ref]);
 
     function get_only_team_data(data, team) {
         let ret = [];
@@ -50,7 +58,11 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+        >
             {events.map((files, index) => (
             <Card key={index} style={styles.container}>
                 <Card.Title
