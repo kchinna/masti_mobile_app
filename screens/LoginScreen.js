@@ -36,7 +36,7 @@ const LoginScreen = () => {
             <Text>{authed}</Text>
             <View style={styles.inputContainer}>
                 <TextInput
-                    placeholder="Email"
+                    placeholder="Login ID"
                     value={email}
                     onChangeText={text => setEmail(text)}
                     style={styles.input}
