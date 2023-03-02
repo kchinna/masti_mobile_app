@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, View, StatusBar, RefreshControl } from 'react-native'
+import { StyleSheet, Text, ScrollView, View, StatusBar, RefreshControl, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Card } from "react-native-paper";
@@ -59,46 +59,80 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
 
     return (
         <ScrollView
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-        >
-            {events.map((files, index) => (
-            <Card key={index} style={styles.container}>
-                <Card.Title
-                title={!files[1] ? "Not Provided" : files[1]}
-                left={() => <Ionicons name="md-person" size={50} color="#fff" />}
-                />
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Team Name:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[0] ? "Not Given" : files[0]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Message:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[2] ? "Not Provided" : files[2]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Time:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[4] ? "Not Provided" : files[3]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Venue:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[3] ? "Not Provided" : files[4]}
-                </Text>
-                </Card.Content>
-            </Card>
-            ))}
-        </ScrollView>
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        style={styles.container}
+      >
+        {events.map((files, index) => (
+          <Card key={index} style={styles.card}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardTitle}>{!files[1] ? "Not Provided" : files[1]}</Text>
+              <Ionicons name="md-person" size={50} color="#fff" />
+            </View>
+            <Card.Content style={styles.cardContent}>
+              <Text style={styles.cardSubTitle}>Message:</Text>
+              <Text style={styles.cardText}>
+                {!files[0] ? "Not Given" : files[0]}
+              </Text>
+              
+            </Card.Content>
+            <Card.Content style={styles.cardContent}>
+              <Text style={styles.cardSubTitle}>Date:</Text>
+              <Text style={styles.cardText}>
+                {!files[2] ? "Not Provided" : files[2]}
+              </Text>
+            </Card.Content>
+          </Card>
+        ))}
+      </ScrollView>
     );
-}
-
-export default ScheduleScreen
-
-const styles = StyleSheet.create({})
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#fff',
+    },
+    card: {
+      marginHorizontal: 10,
+      marginVertical: 5,
+      borderRadius: 10,
+      elevation: 5,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      shadowOffset: { width: 0, height: 2 },
+    },
+    cardHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
+      backgroundColor: colors.red,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+    },
+    cardTitle: {
+      flex: 1,
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    cardContent: {
+      padding: 10,
+    },
+    cardSubTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    cardText: {
+      fontSize: 14,
+      marginVertical: 5,
+    },
+    cardImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      alignSelf: 'flex-end',
+      margin: 10,
+    },
+  });
+  
+  export default ScheduleScreen;
