@@ -74,10 +74,10 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
           <Card key={index} style={styles.card}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>{!files[1] ? "Not Provided" : files[1]}</Text>
-              <Ionicons name="md-person" size={50} color="#fff" />
+              {/* <Ionicons name="md-person" size={50} color="#fff" /> */}
             </View>
             <Card.Content style={styles.cardContent}>
-              <Text style={styles.cardSubTitle}>Message:</Text>
+              {/* <Text style={styles.cardSubTitle}>Message:</Text> */}
               <Text style={styles.cardText}>
                 {!files[0] ? "Not Given" : files[0]}
               </Text>
