@@ -57,18 +57,6 @@ const AnnouncementScreen = ({ route }) => {
                     {!files[2] ? "Not Provided" : files[2]}
                 </Text>
                 </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Time:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[4] ? "Not Provided" : files[3]}
-                </Text>
-                </Card.Content>
-                <Card.Content style={styles.content}>
-                <Text style={styles.title}>Venue:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[3] ? "Not Provided" : files[4]}
-                </Text>
-                </Card.Content>
             </Card>
             ))}
         </ScrollView>
