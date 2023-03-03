@@ -23,11 +23,12 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
                 if (res.data) {
                     let team = res.data.item.team;
                     // console.log(res.data)
-                    let url2 = "https://sheets.googleapis.com/v4/spreadsheets/1JamcQYLqAkSdbzQSgksModEUcae3dov-1QGK250Yln0/values/sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
+                    // let url2 = "https://sheets.googleapis.com/v4/spreadsheets/117UsKsev9eAnEWmQUKNdExtzc9Q0_zQ7XVO6EVmfQtY/values/Sheet1?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
+                    let url2 = "https://sheets.googleapis.com/v4/spreadsheets/1MqEhuJUKs8IU2iBatGANvPpOxclu90USlsOyDrd-nSE/values/Team Schedules?valueRenderOption=FORMATTED_VALUE&key=AIzaSyDMalvDBVjc-wzIZ59cQGhKhEbgUMO6r2w";
                     try {
                         axios.get(url2).then(res => {
                             if (res.data) {
-                                let data = get_only_team_data(res.data.values.splice(1), team);
+                                let data = get_only_team_data(res.data.values, team);
                                 setEvents(data);
                             }
                         })
@@ -50,11 +51,18 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
     function get_only_team_data(data, team) {
         let ret = [];
         for (let i = 0; i < data.length; i++) {
-            if (data[i].length === 4 && data[i][3].toLowerCase().replace(/ /g, "") === team.toLowerCase().replace(/ /g, "")) {
-                ret.push(data[i]);
+            if (data[i].length == 1 && data[i][0].toLowerCase().includes(team.toLowerCase())) {
+                let j = i + 1;
+                while (data[j].length != 1) {
+                    if (data[j].length == 2) {
+                        ret.push(data[j]);
+                    }
+                    j += 1;
+                }
+                i = data.length; // end loop
             }
         }
-        return ret;
+        return ret.splice(1);
     }
 
     return (
@@ -74,12 +82,6 @@ const ScheduleScreen = ({ route,  task, icon, theme, stamp}) => {
                 {!files[0] ? "Not Given" : files[0]}
               </Text>
               
-            </Card.Content>
-            <Card.Content style={styles.cardContent}>
-              <Text style={styles.cardSubTitle}>Date:</Text>
-              <Text style={styles.cardText}>
-                {!files[2] ? "Not Provided" : files[2]}
-              </Text>
             </Card.Content>
           </Card>
         ))}
