@@ -42,14 +42,14 @@ const AnnouncementScreen = ({ route }) => {
             {announcements.map((files, index) => (
             <Card key={index} style={styles.container}>
                 <Card.Title
-                title={!files[1] ? "Not Provided" : files[0]}
-                left={() => <Ionicons name="md-person" size={50} color="#fff" />}
+                    title={!files[1] ? "Not Provided" : files[0]}
+                    left={() => <Ionicons name="md-person" size={50} color="#fff" />}
                 />
                 <Card.Content style={styles.content}>
-                <Text style={styles.title}>Message:</Text>
-                <Text style={styles.paragraph}>
-                    {!files[0] ? "Not Given" : files[1]}
-                </Text>
+                    {/* <Text style={styles.title}>Message:</Text> */}
+                    <Text style={styles.paragraph}>
+                        {!files[0] ? "Not Given" : files[1]}
+                    </Text>
                 </Card.Content>
             </Card>
             ))}
