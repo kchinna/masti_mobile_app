@@ -57,7 +57,7 @@ const HomeScreen = ({ route }) => {
     const Card = ({team}) => {
       return (
         <TouchableOpacity
-          activeOpacity={0.8}
+          activeOpacity={1.0}
           /*onPress={() => navigation.navigate('ScheduleScreen')}*/
         >
           <View style={style.card}>
