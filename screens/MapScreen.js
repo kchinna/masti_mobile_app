@@ -3,8 +3,8 @@ import React from 'react'
 import MapView, {Marker} from 'react-native-maps';
 
 const MapScreen = () => {
-  const x_latitude = 38.9381766;
-  const y_latitude = -76.9101951;
+  const x_latitude = 38.9372498;
+  const y_latitude = -76.9192696;
   return (
     <MapView
     initialRegion={{
